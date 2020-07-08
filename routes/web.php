@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Car;
+use App\Review;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +16,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('cars.addrecordsForm');
+})->name('add_car');
+
+Route::get('add_review', function () {
+    return view('cars.addreview');
+})->name('add_review');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/car','CarController@allcars');
+Route::get('/car/{id}','CarController@particularcar');
+Route::post('/register_car','CarController@newcar');
+Route::get ( 'all_cars', function () {
+    $data = Car::all ();
+    return view ( 'cars/allcars' )->withData ( $data );
+} )->name('all_cars');
+
+Route::post('/saveReview','ReviewsController@saveReview');
+
+Route::get('/getMake','ReviewsController@getMake');
+
+Route::get ( 'all_reviews', function () {
+    $data = Review::all ();
+    return view ( 'cars/allreviews' )->withData ( $data );
+} )->name('all_reviews');
